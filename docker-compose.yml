@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: book-catalog-backend
+    ports:
+      - "8000:8000"
+    environment:
+      # Use the volume for persistent SQLite DB file
+      DATABASE_URL: sqlite:///./data/books.db
+    volumes:
+      # Volume for code changes during development
+      - ./backend/app:/app/app
+      # Volume for database persistence
+      - backend_data:/app/data
+    networks:
+      - book-network
+    
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    container_name: book-catalog-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      # This variable is set in the Dockerfile for the production build
+      # NEXT_PUBLIC_API_URL: http://backend:8000
+      NODE_ENV: production
+    # Mount volumes for development (optional, but good practice)
+    volumes:
+      - ./frontend:/app/frontend
+    depends_on:
+      - backend
+    networks:
+      - book-network
+
+volumes:
+  backend_data:
+
+networks:
+  book-network:
+    driver: bridge
