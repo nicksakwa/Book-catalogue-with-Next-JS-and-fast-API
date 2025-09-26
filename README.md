@@ -2,7 +2,7 @@
 
 This GitHub repository provides a Next JS application front end and fast API backend with the python Pydantic library for CRUD Book library and Docker for containerization
 
-# Next JS application front end and fast API backend with the python Pydantic library for CRUD Book library and Docker for containerization
+# Next JS application front end and fast API backend with the python Pydantic library 
 
 
 ## For this repository the requisites are:
