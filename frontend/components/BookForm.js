@@ -17,7 +17,6 @@ const BookForm = ({ initialData = {}, isEdit = false }) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Populate form if initialData changes (only for edit)
     if (isEdit) {
         setFormData({
             ...initialData,
@@ -41,20 +40,16 @@ const BookForm = ({ initialData = {}, isEdit = false }) => {
     setSubmitting(true);
     setError(null);
 
-    // Prepare data: convert year to number or set to null if empty
     const dataToSend = {
       ...formData,
       publication_year: formData.publication_year ? parseInt(formData.publication_year, 10) : null,
-      // Remove empty strings for optional fields in PUT requests
       isbn: formData.isbn || null
     };
 
-    // Remove ID if present in ADD mode
     if (!isEdit && dataToSend.id) {
         delete dataToSend.id;
     }
     
-    // Remove null/empty fields from a PUT request for partial update
     const finalData = isEdit
       ? Object.fromEntries(Object.entries(dataToSend).filter(([_, v]) => v !== null && v !== ''))
       : dataToSend;
