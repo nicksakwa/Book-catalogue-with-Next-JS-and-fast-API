@@ -1,46 +1,53 @@
-version: '3.8'
-
 services:
   backend:
+    # Use the local Dockerfile in the 'backend' directory
     build:
       context: .
       dockerfile: backend/Dockerfile
     container_name: book-catalog-backend
     ports:
+      # Map host port 8000 to container port 8000
       - "8000:8000"
     environment:
-      # Use the volume for persistent SQLite DB file
+      # Define the path for the SQLite DB file inside the container
+      # This path is mapped to the 'backend_data' volume below
       DATABASE_URL: sqlite:///./data/books.db
     volumes:
-      # Volume for code changes during development
+      # Volume for live code changes during development
       - ./backend/app:/app/app
-      # Volume for database persistence
+      # Volume for persistent database storage (data/books.db will persist)
       - backend_data:/app/data
     networks:
       - book-network
     
   frontend:
+    # Use the local Dockerfile in the 'frontend' directory
     build:
       context: .
       dockerfile: frontend/Dockerfile
     container_name: book-catalog-frontend
     ports:
+      # Map host port 3000 to container port 3000
       - "3000:3000"
     environment:
-      # This variable is set in the Dockerfile for the production build
-      # NEXT_PUBLIC_API_URL: http://backend:8000
+      # Environment variable is set in the frontend Dockerfile for API communication
       NODE_ENV: production
-    # Mount volumes for development (optional, but good practice)
+    # Mount volumes for development (optional, allows code changes to reflect)
     volumes:
       - ./frontend:/app/frontend
+      # Exclude node_modules from the volume mount to prevent permission issues
+      - /app/frontend/node_modules
+    # Ensure backend is running before starting the frontend
     depends_on:
       - backend
     networks:
       - book-network
 
 volumes:
+  # Define the named volume for persistent database storage
   backend_data:
 
 networks:
+  # Define a custom bridge network for internal communication
   book-network:
     driver: bridge
