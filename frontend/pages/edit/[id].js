@@ -15,7 +15,7 @@ export default function EditBookPage() {
     if (id) {
       const fetchBook = async () => {
         try {
-          const response = await axios.get(`${API_URL}/books/${id}`);
+          const response = await axios.get(`${API_URL}/api/v1/books/${id}`);
           setBook(response.data);
         } catch (error) {
           console.error('Error fetching book:', error);

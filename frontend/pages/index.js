@@ -11,7 +11,7 @@ export default function Home() {
 
   const fetchBooks = async () => {
     try {
-      const response = await axios.get(`${API_URL}/books`);
+  const response = await axios.get(`${API_URL}/api/v1/books/`);
       setBooks(response.data);
     } catch (error) {
       console.error('Error fetching books:', error);
@@ -27,7 +27,7 @@ export default function Home() {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this book?')) {
       try {
-        await axios.delete(`${API_URL}/books/${id}`);
+  await axios.delete(`${API_URL}/api/v1/books/${id}`);
         // Refresh the list after successful deletion
         fetchBooks();
       } catch (error) {

@@ -62,10 +62,10 @@ const BookForm = ({ initialData = {}, isEdit = false }) => {
 
     try {
       if (isEdit) {
-        await axios.put(`${API_URL}/books/${initialData.id}`, finalData);
+        await axios.put(`${API_URL}/api/v1/books/${initialData.id}`, finalData);
         alert('Book updated successfully!');
       } else {
-        await axios.post(`${API_URL}/books`, finalData);
+        await axios.post(`${API_URL}/api/v1/books/`, finalData);
         alert('Book added successfully!');
       }
       router.push('/'); // Redirect to home page
