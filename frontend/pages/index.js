@@ -31,8 +31,11 @@ export default function Home() {
         // Refresh the list after successful deletion
         fetchBooks();
       } catch (error) {
-        console.error('Error deleting book:', error);
-        alert('Failed to delete book.');
+        console.error('Error deleting book:', error.response ? error.response.data : error.message);
+        const msg = error.response && error.response.data && error.response.data.detail
+          ? `${error.response.status} - ${error.response.data.detail}`
+          : (error.message || 'Failed to delete book.');
+        alert(`Failed to delete book: ${msg}`);
       }
     }
   };

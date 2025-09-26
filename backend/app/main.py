@@ -60,6 +60,33 @@ def read_books(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     books = crud.get_books(db, skip=skip, limit=limit)
     return books
 
+
+# GET a single book by id
+@app.get("/api/v1/books/{book_id}", response_model=schemas.Book)
+def read_book(book_id: int, db: Session = Depends(get_db)):
+    book = crud.get_book(db, book_id=book_id)
+    if not book:
+        raise HTTPException(status_code=404, detail="Book not found")
+    return book
+
+
+# PUT to update a book
+@app.put("/api/v1/books/{book_id}", response_model=schemas.Book)
+def update_book(book_id: int, book_update: schemas.BookUpdate, db: Session = Depends(get_db)):
+    updated = crud.update_book(db, book_id=book_id, book_update=book_update)
+    if not updated:
+        raise HTTPException(status_code=404, detail="Book not found")
+    return updated
+
+
+# DELETE a book
+@app.delete("/api/v1/books/{book_id}")
+def delete_book(book_id: int, db: Session = Depends(get_db)):
+    deleted = crud.delete_book(db, book_id=book_id)
+    if not deleted:
+        raise HTTPException(status_code=404, detail="Book not found")
+    return {"detail": "Book deleted"}
+
 # Placeholder for GET / (Optional health check)
 @app.get("/")
 def read_root():
