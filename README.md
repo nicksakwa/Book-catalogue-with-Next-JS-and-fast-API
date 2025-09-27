@@ -13,10 +13,15 @@ In the project directory, you can run:
 1.  **Docker:** Which you can download from the [official Docker website]
 2.  **Node:** Which you can download from the [official Nodejs website](https://nodejs.org/en/download).
 3.  **Python:** Which you can download from the [official Python website](https://www.python.org/downloads/).
+4.  Clone the repository you created earlier.
+
+   ```sh
+   git clone https://github.com/nicksakwa/Book-catalogue-with-Next-JS-and-fast-API/
+   ```
     
 ## How to run this example 
 
     ```bash
-    docker-compose up --build
+    docker-compose up --duild
     ```
     
