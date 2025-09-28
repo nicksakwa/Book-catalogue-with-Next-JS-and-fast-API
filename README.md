@@ -21,7 +21,7 @@ In the project directory, you can run:
     
 ## How to run this example 
 
-    ```bash
-    docker-compose up --duild
+    ``` sh
+    docker-compose up --build
     ```
     
